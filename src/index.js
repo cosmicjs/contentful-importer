@@ -1,17 +1,18 @@
-import React, { Component } from 'react';
-import { render } from 'react-dom';
-import { CosmicService } from './cosmic.service';
-import { ContentfulService } from './contentful.service';
-import { ImporterService } from './importer.service';
-import { cosmicImageUrl, contentfulImageUrl } from './images';
-import ReactLoading from 'react-loading';
-import './style.css';
+import React, { Component } from "react";
+import { render } from "react-dom";
+import { CosmicService } from "./cosmic.service";
+import { ContentfulService } from "./contentful.service";
+import { ImporterService } from "./importer.service";
+import ReactLoading from "react-loading";
+import "./style.css";
 
-/*
-const slug = 'contentful';
-const read_key = 'HhrcgEdgFQnsaZGgpDxShKwgVyly80LhgIR9SiWdfpvHqjQBlZ';
-const write_key = 'DbV9GQNAPqU7hZBeZlz9uPht8LGAS9KuwvuF7Vg63O4kka03yl';
-*/
+import cosmicLogo from "./img/cosmic-logo.svg";
+import contentfulLogo from "./img/contentful-logo.png";
+
+const getParam = param => {
+  var urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get(param);
+};
 
 class App extends Component {
   importerService;
@@ -21,52 +22,69 @@ class App extends Component {
 
     this.state = {
       file: null,
-      slug: 'contentful',
-      read_key: 'HhrcgEdgFQnsaZGgpDxShKwgVyly80LhgIR9SiWdfpvHqjQBlZ',
-      write_key: 'DbV9GQNAPqU7hZBeZlz9uPht8LGAS9KuwvuF7Vg63O4kka03yl',
+      slug: getParam("bucket_slug"),
+      read_key: getParam("read_key"),
+      write_key: getParam("write_key"),
       errorMessage: false,
       progress: false,
       loading: false,
       messages: []
     };
+
+    this.createService();
   }
 
   render() {
     const { errorMessage, loading, progress, messages } = this.state;
 
     return (
-      <div>
-       <div>
-        <img src={contentfulImageUrl}/>
-        <img src={cosmicImageUrl}/>
-       </div>
-       <div>
-        <p>To import data from Contentful create an export file via the Contentful CLI then upload it here.</p>
-
-        <p>For more information visit:&nbsp;
-        <a href="https://www.contentful.com/developers/docs/tutorials/cli/import-and-export/">https://www.contentful.com/developers/docs/tutorials/cli/import-and-export/</a>
-        </p>
-       </div>
-       {errorMessage ? <div className="error">{errorMessage}</div> : ''}
-       {loading ? <ReactLoading type="bubbles" color="#000000" /> : ''}
-       {progress ? <div className="progress">{progress}</div> : ''}
-       {messages.length ? (
-         <div>
-          <h3>Messages:</h3>
-          <ul>
-            {messages.map((message, i) => <li key={i}>{message}</li>)}
-          </ul>
-         </div>
-       ) : ''}
-       {loading ? '' : 
+      <div class="root">
         <div>
-
-          <div>
-            <input type="file" accept=".json" onChange={(e) => this.setFile(e)}/>
-          </div>
-          <button onClick={() => this.parseFile()}>Run import</button>
+          <img src={contentfulLogo} alt="Contentful Logo" />
+          <img src={cosmicLogo} alt="Cosmic JS Logo" />
         </div>
-       }
+        <div>
+          <p>
+            To import data from Contentful create an export file via the
+            Contentful CLI then upload it here.
+          </p>
+
+          <p>
+            For more information visit:&nbsp;
+            <a href="https://www.contentful.com/developers/docs/tutorials/cli/import-and-export/">
+              https://www.contentful.com/developers/docs/tutorials/cli/import-and-export/
+            </a>
+          </p>
+        </div>
+        {errorMessage ? <div className="error">{errorMessage}</div> : ""}
+        {loading ? <ReactLoading type="bubbles" color="#000000" /> : ""}
+        {progress ? <div className="progress">{progress}</div> : ""}
+        {messages.length ? (
+          <div>
+            <h3>Messages:</h3>
+            <ul>
+              {messages.map((message, i) => (
+                <li key={i}>{message}</li>
+              ))}
+            </ul>
+          </div>
+        ) : (
+          ""
+        )}
+        {loading ? (
+          ""
+        ) : (
+          <div>
+            <div>
+              <input
+                type="file"
+                accept=".json"
+                onChange={e => this.setFile(e)}
+              />
+            </div>
+            <button onClick={() => this.parseFile()}>Run import</button>
+          </div>
+        )}
       </div>
     );
   }
@@ -80,9 +98,9 @@ class App extends Component {
 
   createService() {
     const { slug, read_key, write_key } = this.state;
-    
-    if(!slug || !read_key || !write_key) {
-      throw new Error('Set auth values');
+
+    if (!slug || !read_key || !write_key) {
+      throw new Error("Set auth values");
     }
 
     const cosmic = new CosmicService(slug, read_key, write_key);
@@ -107,12 +125,10 @@ class App extends Component {
         loading: true
       });
 
-      this.createService();
-
       const { file } = this.state;
 
-      if(!file) {
-        throw new Error('No file provided');
+      if (!file) {
+        throw new Error("No file provided");
       }
 
       this.importerService.loadContentfulContent(
@@ -122,7 +138,7 @@ class App extends Component {
         () => this.completeCallback(),
         m => this.messageCallback(m)
       );
-    } catch(e) {
+    } catch (e) {
       this.errorCallback(e);
     }
   }
@@ -146,8 +162,8 @@ class App extends Component {
   setFile(e) {
     const file = e.target.files[0];
 
-    this.setState({...this.state, file});
+    this.setState({ ...this.state, file });
   }
 }
 
-render(<App />, document.getElementById('root'));
+render(<App />, document.getElementById("root"));

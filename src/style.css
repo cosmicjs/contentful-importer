@@ -1,4 +1,6 @@
-body, button, input {
+body,
+button,
+input {
   font-family: Lato;
   font-size: 15px;
 }
@@ -21,11 +23,18 @@ input {
   padding: 5px;
 }
 
-button, input {
+button,
+input {
   border-radius: 5px;
 }
 
 label {
   display: block;
   margin-bottom: 5px;
+}
+
+.root {
+  background-color: white;
+  height: 100%;
+  padding: 10px 15px;
 }

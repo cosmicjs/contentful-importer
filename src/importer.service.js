@@ -10,7 +10,7 @@ export class ImporterService {
   loadContentfulContent(file, onProgress, onError, onComplete, onMessage) {
     const reader = new FileReader();
 
-    reader.readAsText(file, 'UTF-8');
+    reader.readAsText(file, "UTF-8");
 
     reader.onload = e => {
       try {
@@ -19,42 +19,47 @@ export class ImporterService {
         const json = JSON.parse(content);
 
         this._parseContent(json, onProgress, onError, onComplete, onMessage);
-      } catch(e) {
+      } catch (e) {
         onError(e);
       }
-    }
+    };
   }
 
   async _parseContent(content, onProgress, onError, onComplete, onMessage) {
-    try{
+    try {
       this._validateContent(content);
-      
-      onProgress('Content valid. Parsing...');
+
+      onProgress("Content valid. Parsing...");
 
       const fields = this.contentful.toCosmicObjectTypes(content.contentTypes);
 
-      onProgress('Successfully parsed content types');
-      
-      const cosmicObjectTypes = await this.cosmic.addObjectTypes(fields.contentTypes);
+      onProgress("Successfully parsed content types");
 
-      onProgress('Successfully created content types');
+      await this.cosmic.addObjectTypes(fields.contentTypes);
 
-      const media = await this.contentful.toCosmicMedia(content.assets, content.locales);
+      onProgress("Successfully created content types");
 
-      onProgress('Successfully parsed media');
+      const media = await this.contentful.toCosmicMedia(
+        content.assets,
+        content.locales
+      );
 
-      onProgress('Uploading media to Cosmic...');
+      onProgress("Successfully parsed media");
+
+      onProgress("Uploading media to Cosmic...");
 
       const cosmicMedia = await this.cosmic.addMediaObjects(media);
 
       cosmicMedia.forEach(media => {
         if (media.failed) {
-          onMessage(`Failed to upload image: ${media.file.metadata.title} - ${media.file.metadata.originalUrl}`);
+          onMessage(
+            `Failed to upload image: ${media.file.metadata.title} - ${media.file.metadata.originalUrl}`
+          );
         }
-      })
+      });
 
-      onProgress('Successfully created media');
-      
+      onProgress("Successfully created media");
+
       const parsedObjects = this.contentful.toCosmicObjects(
         content.entries,
         content.locales,
@@ -63,27 +68,27 @@ export class ImporterService {
         media
       );
 
-      onProgress('Successfully parsed entries');
+      onProgress("Successfully parsed entries");
 
-      const cosmicObjects = await this.cosmic.addObjects(parsedObjects);
+      await this.cosmic.addObjects(parsedObjects);
 
-      onProgress('Successfully created objects');
+      onProgress("Successfully created objects");
 
       onComplete();
-    } catch(e) {
+    } catch (e) {
       onError(e);
       console.log(e);
     }
   }
 
   _validateContent(content) {
-    if(
+    if (
       !content ||
       !content.contentTypes ||
       !content.entries ||
       !content.locales
     ) {
-      throw new Error('invalid content');
+      throw new Error("invalid content");
     }
   }
 }
