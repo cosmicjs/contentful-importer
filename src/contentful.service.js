@@ -77,15 +77,22 @@ export class ContentfulService {
     return new Promise((resolve, reject) => {
       const { code } = locale;
       const url = asset.fields.file[code].url;
-      const res = fetch(url);
+      const req = fetch(url);
 
-      res
-        .then(body => {
-          return body.blob();
+      let contentType;
+
+      req
+        .then(res => {
+          res.headers.forEach((val, key) => {
+            if (key === "content-type") {
+              contentType = val;
+            }
+          });
+          return res.blob();
         })
         .then(body => {
           const originalName = asset.fields.file[code].fileName;
-          const buffer = new File([body], originalName);
+          const buffer = new File([body], originalName, { type: contentType });
 
           resolve({
             media: buffer,
