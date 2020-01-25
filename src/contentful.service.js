@@ -2,7 +2,7 @@ import pluralize from "pluralize";
 import showdown from "showdown";
 import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
 
-function getMetafieldType(type) {
+function getMetafieldType(type, subtype) {
   if (
     type === "Symbol" ||
     type === "Boolean" ||
@@ -20,6 +20,8 @@ function getMetafieldType(type) {
     return "date";
   } else if (type === "Asset") {
     return "file";
+  } else if (type === "Link" && subtype === "Asset") {
+    return "file";
   } else if (type === "Link") {
     return "object";
   } else if (type === "Array") {
@@ -34,15 +36,21 @@ function parseLink(link, media) {
       slug: link.sys.id
     };
   } else if (link.sys.type === "Link" && link.sys.linkType === "Asset") {
-    const mediaIndex = media.findIndex(
-      mediaObject => mediaObject.metadata.contentfulId === link.sys.id
-    );
+    const mediaIndex = media.findIndex(mediaObject => {
+      return (
+        !mediaObject.failed &&
+        mediaObject.media.metadata.contentfulId === link.sys.id
+      );
+    });
+
     const mediaObject = media[mediaIndex];
 
-    return {
-      type: "media",
-      url: mediaObject.metadata.originalUrl
-    };
+    return (
+      mediaObject && {
+        type: "media",
+        name: mediaObject.media.name
+      }
+    );
   }
 }
 
@@ -112,7 +120,7 @@ export class ContentfulService {
 
       const metafields = type.fields.map(field => {
         const metafield = {
-          type: getMetafieldType(field.type),
+          type: getMetafieldType(field.type, field.linkType),
           title: field.name,
           key: field.id,
           required: field.required
@@ -168,6 +176,10 @@ export class ContentfulService {
 
           if (type.type === "object" && val.sys) {
             metafieldObject.value = parseLink(val, media);
+          } else if (type.type === "file") {
+            const mediaVal = parseLink(val, media);
+            if (!mediaVal) return;
+            metafieldObject.value = mediaVal.name;
           } else if (type.type === "objects" && val[0] && val[0].sys) {
             metafieldObject.value = val.map(link => parseLink(link, media));
           } else if (type.type === "html-textarea") {

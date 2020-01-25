@@ -38,7 +38,7 @@ class App extends Component {
     const { errorMessage, loading, progress, messages } = this.state;
 
     return (
-      <div class="root">
+      <div className="root">
         <div>
           <img src={contentfulLogo} alt="Contentful Logo" />
           <img src={cosmicLogo} alt="Cosmic JS Logo" />

@@ -50,12 +50,16 @@ export class ImporterService {
 
       const cosmicMedia = await this.cosmic.addMediaObjects(media);
 
-      cosmicMedia.forEach(media => {
+      const successfulMedia = cosmicMedia.filter(media => {
         if (media.failed) {
           onMessage(
             `Failed to upload image: ${media.file.metadata.title} - ${media.file.metadata.originalUrl}`
           );
+
+          return false;
         }
+
+        return true;
       });
 
       onProgress("Successfully created media");
@@ -65,7 +69,7 @@ export class ImporterService {
         content.locales,
         fields.displayFieldMap,
         fields.metafieldDescriptors,
-        media
+        successfulMedia
       );
 
       onProgress("Successfully parsed entries");
