@@ -123,7 +123,8 @@ export class ContentfulService {
           type: getMetafieldType(field.type, field.linkType),
           title: field.name,
           key: field.id,
-          required: field.required
+          required: field.required,
+          isSlug: field.name === "slug" || field.name === "Slug"
         };
 
         objectTypes.metafieldDescriptors[type.sys.id].fields[
@@ -169,6 +170,10 @@ export class ContentfulService {
         Object.keys(entry.fields).forEach(key => {
           const type = metafieldDescriptors[object.type_slug].fields[key];
           const val = entry.fields[key][code];
+
+          if (type.isSlug) {
+            object.slug = val;
+          }
 
           const metafieldObject = {
             ...type
