@@ -1,6 +1,6 @@
-# Cosmic JS / Contentful Importer
+# Contentful to Cosmic JS Importer
 
-Import your Contentful space into Cosmic JS
+Import your Contentful space into Cosmic JS.
 
 ## Installation
 
