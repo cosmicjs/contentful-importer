@@ -16,7 +16,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "deploy": "npm run build && node ./build.js",
+    "deploy": "npm run build && cp extension.json build/extension.json && zip -r build.zip build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
