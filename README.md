@@ -1,6 +1,6 @@
 # Cosmic JS / Contentful Importer
 
-JAMStack Contentful Extension
+Import your Contentful space into Cosmic JS
 
 ## Installation
 
