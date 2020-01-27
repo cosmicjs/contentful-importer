@@ -5,6 +5,7 @@ import { ContentfulService } from "./contentful.service";
 import { ImporterService } from "./importer.service";
 import ReactLoading from "react-loading";
 import "./style.css";
+import { Input } from 'semantic-ui-react'
 
 import cosmicLogo from "./img/cosmic-logo.svg";
 import contentfulLogo from "./img/contentful-logo.png";
@@ -39,11 +40,11 @@ class App extends Component {
 
     return (
       <div className="root">
-        <div>
-          <img src={contentfulLogo} alt="Contentful Logo" />
-          <img src={cosmicLogo} alt="Cosmic JS Logo" />
+        <div style={{ marginBottom: 30 }}>
+          <img style={{ height: 60, marginRight: 30 }} src={contentfulLogo} alt="Contentful Logo" />
+          <img style={{ height: 60 }} src={cosmicLogo} alt="Cosmic JS Logo" />
         </div>
-        <div>
+        <div style={{ marginBottom: 30 }}>
           <p>
             To import data from Contentful create an export file via the
             Contentful CLI then upload it here.
@@ -51,7 +52,7 @@ class App extends Component {
 
           <p>
             For more information visit:&nbsp;
-            <a href="https://www.contentful.com/developers/docs/tutorials/cli/import-and-export/">
+            <a target="_blank" href="https://www.contentful.com/developers/docs/tutorials/cli/import-and-export/">
               https://www.contentful.com/developers/docs/tutorials/cli/import-and-export/
             </a>
           </p>
@@ -76,7 +77,7 @@ class App extends Component {
         ) : (
           <div>
             <div>
-              <input
+              <Input
                 type="file"
                 accept=".json"
                 onChange={e => this.setFile(e)}
