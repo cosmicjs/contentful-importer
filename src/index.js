@@ -41,8 +41,8 @@ class App extends Component {
     return (
       <div className="root">
         <div style={{ marginBottom: 30 }}>
-          <img style={{ height: 60, marginRight: 30 }} src={contentfulLogo} alt="Contentful Logo" />
-          <img style={{ height: 60 }} src={cosmicLogo} alt="Cosmic JS Logo" />
+          <img style={{ marginRight: 30 }} src={contentfulLogo} alt="Contentful Logo" />
+          <img style={{ height: 65 }} src={cosmicLogo} alt="Cosmic JS Logo" />
         </div>
         <div style={{ marginBottom: 30 }}>
           <p>
