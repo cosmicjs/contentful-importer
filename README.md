@@ -1,4 +1,4 @@
-<img src="https://cdn.cosmicjs.com/3a7ecd50-414c-11ea-bdd4-051e91c9e483-cosmic-contentful.png" width="600" />
+<img src="https://cdn.cosmicjs.com/62bc64b0-41f8-11ea-93cf-dfe709ea319d-cosmic-contentful-screenshot.png" width="600" />
 
 # Contentful to Cosmic JS Importer
 
