@@ -7,8 +7,8 @@ import ReactLoading from "react-loading";
 import "./style.css";
 import { Input } from 'semantic-ui-react'
 
-import cosmicLogo from "./img/cosmic-logo.svg";
-import contentfulLogo from "./img/contentful-logo.png";
+import cosmicLogo from "./img/cosmic.svg";
+import contentfulLogo from "./img/contentful.png";
 
 const getParam = param => {
   var urlParams = new URLSearchParams(window.location.search);
@@ -41,8 +41,13 @@ class App extends Component {
     return (
       <div className="root">
         <div style={{ marginBottom: 30 }}>
-          <img style={{ marginRight: 30 }} src={contentfulLogo} alt="Contentful Logo" />
-          <img style={{ height: 65 }} src={cosmicLogo} alt="Cosmic JS Logo" />
+          <img style={{ height: 65, width: 'auto' }} src={cosmicLogo} alt="Cosmic JS Logo" />
+          <div class="objects-import-wrapper">
+            <svg className="objects-import" width="486" height="468" viewBox="0 0 486 418" fill="none">
+              <path d="M225 6673V38" stroke="#00AFD7" stroke-opacity=".4" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="5 15"></path>
+            </svg>
+          </div>
+          <img style={{ height: 65, width: 'auto', position: 'relative', left: 100 }} src={contentfulLogo} alt="Contentful Logo" />
         </div>
         <div style={{ marginBottom: 30 }}>
           <p>
