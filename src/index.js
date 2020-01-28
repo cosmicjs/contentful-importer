@@ -5,7 +5,7 @@ import { ContentfulService } from "./contentful.service";
 import { ImporterService } from "./importer.service";
 import ReactLoading from "react-loading";
 import "./style.css";
-import { Input } from 'semantic-ui-react'
+import { Input, Button} from 'semantic-ui-react'
 
 import cosmicLogo from "./img/cosmic.svg";
 import contentfulLogo from "./img/contentful.png";
@@ -66,7 +66,7 @@ class App extends Component {
         {loading ? <ReactLoading type="bubbles" color="#000000" /> : ""}
         {progress ? <div className="progress">{progress}</div> : ""}
         {messages.length ? (
-          <div>
+          <div style={{ marginBottom: 30 }}>
             <h3>Messages:</h3>
             <ul>
               {messages.map((message, i) => (
@@ -80,15 +80,15 @@ class App extends Component {
         {loading ? (
           ""
         ) : (
-          <div>
-            <div>
+          <div style={{ marginBottom: 30 }}>
+            <div style={{ marginBottom: 20 }}>
               <Input
                 type="file"
                 accept=".json"
                 onChange={e => this.setFile(e)}
               />
             </div>
-            <button onClick={() => this.parseFile()}>Run import</button>
+            <Button primary onClick={() => this.parseFile()}>Run import</Button>
           </div>
         )}
       </div>
@@ -105,8 +105,8 @@ class App extends Component {
   createService() {
     const { slug, read_key, write_key } = this.state;
 
-    if (!slug || !read_key || !write_key) {
-      throw new Error("Set auth values");
+    if (!slug) {
+      throw new Error("Set slug value");
     }
 
     const cosmic = new CosmicService(slug, read_key, write_key);

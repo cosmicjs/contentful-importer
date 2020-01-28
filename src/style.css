@@ -9,10 +9,6 @@ button {
   padding: 5px 10px;
 }
 
-div {
-  margin-bottom: 10px;
-}
-
 img {
   width: 300px;
   margin-right: 15px;
@@ -36,13 +32,13 @@ label {
 .root {
   background-color: white;
   height: 100%;
-  padding: 10px 15px;
+  padding: 20px 20px;
 }
 .objects-import-wrapper {
   position: absolute;
-  width: 190px;
+  width: 200px;
   height: 500px;
-  top: -208px;
+  top: -198px;
   overflow: hidden;
   left: 10px;
 }
