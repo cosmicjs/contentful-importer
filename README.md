@@ -17,9 +17,13 @@ npm start
 
 ## Building
 
-`npm run build`
+```
+npm run build
+```
 
 ## Deploy
 Runs a build and compress to zip. The zip will then need to be uploaded to the Extension area in your Bucket.
 
-`npm run deploy`
+```
+npm run deploy
+```
