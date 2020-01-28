@@ -40,7 +40,8 @@ class App extends Component {
 
     return (
       <div className="root">
-        <div style={{ marginBottom: 30 }}>
+        <h1 style={{ marginBottom: 30 }}>Contentful Importer</h1>
+        <div style={{ marginBottom: 30, position: 'relative' }}>
           <img style={{ height: 65, width: 'auto' }} src={cosmicLogo} alt="Cosmic JS Logo" />
           <div class="objects-import-wrapper">
             <svg className="objects-import" width="486" height="468" viewBox="0 0 486 418" fill="none">

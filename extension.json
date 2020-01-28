@@ -1,6 +1,6 @@
 {
   "title": "Contentful Importer",
-  "font_awesome_class": "fa-rocket",
-  "image_url": "https://cosmicjs.com/images/marketing/logo-w-brand.jpg",
-  "repo_url": "https://github.com/kgdiem/cosmic-contentful-importer"
+  "font_awesome_class": "fa-download",
+  "image_url": "https://cdn.cosmicjs.com/2d015110-41f7-11ea-93cf-dfe709ea319d-cosmic-contentful.png",
+  "repo_url": "https://github.com/cosmicjs/contentful-importer"
 }
