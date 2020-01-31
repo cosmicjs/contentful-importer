@@ -57,10 +57,7 @@ class App extends Component {
           </p>
 
           <p>
-            For more information visit:&nbsp;
-            <a target="_blank" href="https://www.contentful.com/developers/docs/tutorials/cli/import-and-export/">
-              https://www.contentful.com/developers/docs/tutorials/cli/import-and-export/
-            </a>
+            For more information <a target="_blank" href="https://www.contentful.com/developers/docs/tutorials/cli/import-and-export/">follow the instructions here</a>.
           </p>
         </div>
         {errorMessage ? <div className="error">{errorMessage}</div> : ""}
