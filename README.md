@@ -2,7 +2,7 @@
 
 # Contentful to Cosmic Importer
 
-Import your Contentful space into Cosmic JS.
+Import your Contentful space into Cosmic JS. Read about [how it was built here](https://www.cosmicjs.com/articles/creating-the-cosmic-js-contentful-importer-k5qwyunz).
 
 ## Installation
 
