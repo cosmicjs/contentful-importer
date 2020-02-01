@@ -30,7 +30,9 @@ function getMetafieldType(type, subtype) {
 }
 
 function parseLink(link, media) {
-  if (link.sys.type === "Link" && link.sys.linkType === "Entry") {
+  if (!link) {
+    return;
+  } else if (link.sys.type === "Link" && link.sys.linkType === "Entry") {
     return {
       type: "link",
       slug: link.sys.id
@@ -76,8 +78,17 @@ export class ContentfulService {
   _createMediaObject(asset, locale) {
     return new Promise((resolve, reject) => {
       const { code } = locale;
-      const url = asset.fields.file[code].url;
+
+      const localeFileObject = asset.fields.file[code];
+
+      if (!localeFileObject) {
+        resolve();
+      }
+
+      const url = localeFileObject.url;
       const req = fetch(url);
+
+      const originalName = asset.fields.file[code].fileName;
 
       let contentType;
 
@@ -91,19 +102,30 @@ export class ContentfulService {
           return res.blob();
         })
         .then(body => {
-          const originalName = asset.fields.file[code].fileName;
           const buffer = new File([body], originalName, { type: contentType });
+
+          const description = asset.fields.description
+            ? asset.fields.description[code]
+            : "";
 
           resolve({
             media: buffer,
             metadata: {
+              description,
               contentfulId: asset.sys.id,
               locale: locale.code,
-              description: asset.fields.description[code],
               title: asset.fields.title[code],
               originalUrl: url
             }
           });
+        })
+        .catch(e => {
+          const error = {
+            failed: true,
+            title: originalName
+          };
+
+          resolve(error);
         });
     });
   }
@@ -186,21 +208,21 @@ export class ContentfulService {
             ...type
           };
 
-          if (type.type === "object" && val.sys) {
+          if (type.type === "object" && val && val.sys) {
             metafieldObject.value = parseLink(val, media);
           } else if (type.type === "file") {
             const mediaVal = parseLink(val, media);
             if (!mediaVal) return;
             metafieldObject.value = mediaVal.name;
-          } else if (type.type === "objects" && val[0] && val[0].sys) {
+          } else if (type.type === "objects" && val && val[0] && val[0].sys) {
             metafieldObject.value = val.map(link => parseLink(link, media));
-          } else if (type.type === "html-textarea") {
+          } else if (type.type === "html-textarea" && val) {
             if (typeof val === "object" && val.nodeType) {
               metafieldObject.value = documentToHtmlString(val);
             } else {
               metafieldObject.value = this.converter.makeHtml(val);
             }
-          } else if (type.type === "text" && typeof val === "object") {
+          } else if (type.type === "text" && val && typeof val === "object") {
             metafieldObject.value = JSON.stringify(val);
           } else {
             metafieldObject.value = val;

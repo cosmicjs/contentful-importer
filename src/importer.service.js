@@ -39,10 +39,19 @@ export class ImporterService {
 
       onProgress("Successfully created content types");
 
-      const media = await this.contentful.toCosmicMedia(
-        content.assets,
-        content.locales
-      );
+      const media = (
+        await this.contentful.toCosmicMedia(content.assets, content.locales)
+      ).filter(mediaObject => {
+        if (mediaObject.failed) {
+          onMessage(
+            `Failed to download image from contentful: ${mediaObject.title}`
+          );
+
+          return false;
+        }
+
+        return true;
+      });
 
       onProgress("Successfully parsed media");
 
