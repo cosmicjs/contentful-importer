@@ -86,16 +86,7 @@ export class ContentfulService {
       }
 
       const url = localeFileObject.url;
-      const req = fetch(
-        url /*, {
-        method: "GET",
-        mode: "no-cors",
-        cache: "no-cache",
-        credentials: "omit",
-        redirect: "follow",
-        referrerPolicy: "no-referrer"
-      }*/
-      );
+      const req = fetch(url);
 
       const originalName = asset.fields.file[code].fileName;
 
