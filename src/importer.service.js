@@ -42,7 +42,9 @@ export class ImporterService {
       const media = (
         await this.contentful.toCosmicMedia(content.assets, content.locales)
       ).filter(mediaObject => {
-        if (mediaObject.failed) {
+        if (!mediaObject) {
+          return false;
+        } else if (mediaObject.failed) {
           onMessage(
             `Failed to download image from contentful: ${mediaObject.title}`
           );

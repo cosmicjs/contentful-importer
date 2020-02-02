@@ -86,7 +86,7 @@ export class ContentfulService {
       }
 
       const url = localeFileObject.url;
-      const req = fetch(url);
+      const req = fetch(url, { mode: "no-cors" });
 
       const originalName = asset.fields.file[code].fileName;
 
@@ -192,7 +192,23 @@ export class ContentfulService {
 
       locales.forEach((locale, index) => {
         const code = locale.code;
-        const title = entry.fields[displayFieldMap[object.type_slug]][code];
+        let title = entry.fields[displayFieldMap[object.type_slug]][code];
+
+        if (!title) {
+          if (entry.fields.title && entry.fields.title[code]) {
+            title = entry.fields.title[code];
+          } else if (entry.fields.title) {
+            const key = Object.keys(entry.fields.title)[0];
+
+            if (key) {
+              title = entry.fields.title[key];
+            } else {
+              title = "imported object";
+            }
+          } else {
+            title = "imported object";
+          }
+        }
 
         const metafields = [];
 
