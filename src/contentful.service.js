@@ -102,10 +102,7 @@ export class ContentfulService {
           return res.blob();
         })
         .then(body => {
-          console.log(contentType, body);
           const buffer = new File([body], originalName, { type: contentType });
-
-          console.log(buffer);
 
           const description = asset.fields.description
             ? asset.fields.description[code]
