@@ -1,4 +1,4 @@
-import CosmicFactory from 'cosmicjs';
+import CosmicFactory from "cosmicjs";
 
 export class CosmicService {
   bucket;
@@ -17,8 +17,8 @@ export class CosmicService {
     try {
       const promises = media.map(media => this.addMediaObject(media));
       return Promise.all(promises);
-    }catch(e) {
-      console.log('caught at add media object', e);
+    } catch (e) {
+      console.log("caught at add media object", e);
 
       throw e;
     }
@@ -26,13 +26,14 @@ export class CosmicService {
 
   addMediaObject(params) {
     return new Promise((resolve, reject) => {
-      this.bucket.addMedia(params)
-      .then(data => {
-        resolve(data);
-      })
-      .catch(err => {
-        resolve({failed: true, e: err, file: params});
-      });
+      this.bucket
+        .addMedia(params)
+        .then(data => {
+          resolve(data);
+        })
+        .catch(err => {
+          resolve({ failed: true, e: err, file: params });
+        });
     });
   }
 
@@ -44,17 +45,16 @@ export class CosmicService {
 
   addObject(params) {
     return new Promise((resolve, reject) => {
-      this.bucket.addObject(params)
-      .then(data => resolve(data))
-      .catch(err => {
-        
-        if(err.message && 
-          !err.message.includes('already exists')) {
-          reject(err);
-        }
+      this.bucket
+        .addObject(params)
+        .then(data => resolve(data))
+        .catch(err => {
+          if (err.message && !err.message.includes("already exists")) {
+            reject(err);
+          }
 
-        resolve(err);
-      });
+          resolve(err);
+        });
     });
   }
 
@@ -66,16 +66,16 @@ export class CosmicService {
 
   addObjectType(params) {
     return new Promise((resolve, reject) => {
-      this.bucket.addObjectType(params)
-      .then(data => resolve(data))
-      .catch(err => {
-        if(err.message && 
-          !err.message.includes('already exists')) {
-          reject(err);
-        }
+      this.bucket
+        .addObjectType(params)
+        .then(data => resolve(data))
+        .catch(err => {
+          if (err.message && !err.message.includes("already exists")) {
+            reject(err);
+          }
 
-        resolve(err);
-      });
+          resolve(err);
+        });
     });
   }
 }

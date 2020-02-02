@@ -86,7 +86,16 @@ export class ContentfulService {
       }
 
       const url = localeFileObject.url;
-      const req = fetch(url, { mode: "no-cors" });
+      const req = fetch(
+        url /*, {
+        method: "GET",
+        mode: "no-cors",
+        cache: "no-cache",
+        credentials: "omit",
+        redirect: "follow",
+        referrerPolicy: "no-referrer"
+      }*/
+      );
 
       const originalName = asset.fields.file[code].fileName;
 
@@ -102,7 +111,10 @@ export class ContentfulService {
           return res.blob();
         })
         .then(body => {
+          console.log(contentType, body);
           const buffer = new File([body], originalName, { type: contentType });
+
+          console.log(buffer);
 
           const description = asset.fields.description
             ? asset.fields.description[code]
