@@ -5,7 +5,7 @@ import { ContentfulService } from "./contentful.service";
 import { ImporterService } from "./importer.service";
 import ReactLoading from "react-loading";
 import "./style.css";
-import { Input, Button} from 'semantic-ui-react'
+import { Input, Button, Modal, Header, Icon } from 'semantic-ui-react'
 
 import cosmicLogo from "./img/cosmic.svg";
 import contentfulLogo from "./img/contentful.png";
@@ -33,11 +33,35 @@ class App extends Component {
     };
 
     this.createService();
+    
+    this.closeSuccessModal = () => {
+      this.setState({
+        ...this.state,
+        progress: false
+      });
+    }
   }
 
-  render() {
-    const { errorMessage, loading, progress, messages } = this.state;
 
+  render() {
+    const { errorMessage, loading, progress, messages, slug } = this.state;
+    if (progress === 'Successfully created objects') {
+      return (
+        <Modal open={true} basic size='small'>
+          <Header icon='check' color='green' content='Entries Imported' />
+          <Modal.Content>
+            <p style={{ fontSize: 16 }}>
+              Your entries have been successfully imported!&nbsp;&nbsp;&nbsp;<a href={`https://app.cosmicjs.com/${slug}/dashboard`} target='_parent'>Go see them&nbsp;&nbsp;<Icon name='external' /></a>
+            </p>
+          </Modal.Content>
+          <Modal.Actions>
+            <Button inverted onClick={() => this.closeSuccessModal()}>
+              <Icon name='times' /> Close
+            </Button>
+          </Modal.Actions>
+        </Modal>
+      )
+    }
     return (
       <div className="root">
         <h1 style={{ marginBottom: 30 }}>Contentful Importer</h1>
