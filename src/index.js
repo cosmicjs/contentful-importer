@@ -5,7 +5,7 @@ import { ContentfulService } from "./contentful.service";
 import { ImporterService } from "./importer.service";
 import ReactLoading from "react-loading";
 import "./style.css";
-import { Input, Button, Modal, Header, Icon } from 'semantic-ui-react'
+import { Input, Button, Modal, Header, Icon, Message } from 'semantic-ui-react'
 
 import cosmicLogo from "./img/cosmic.svg";
 import contentfulLogo from "./img/contentful.png";
@@ -79,7 +79,12 @@ class App extends Component {
             To import data from Contentful create an export file via the
             Contentful CLI then upload it here.
           </p>
-
+          Use the Contentful CLI to download a JSON file export of your space. Example:
+          <Message>
+            <code>
+contentful space export --space-id YOUR_SPACE_ID --management-token YOUR_MANAGEMENT_TOKEN
+            </code>
+          </Message>
           <p>
             For more information <a target="_blank" href="https://www.contentful.com/developers/docs/tutorials/cli/import-and-export/">follow the instructions here</a>.
           </p>
